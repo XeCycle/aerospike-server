@@ -35,6 +35,8 @@
 #include <time.h>
 #include <unistd.h>
 
+#include <sys/stat.h>
+
 #include <aerospike/as_log.h>
 #include <citrusleaf/alloc.h>
 #include <citrusleaf/cf_b64.h>

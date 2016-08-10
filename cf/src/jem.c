@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <jemalloc/jemalloc.h>
 #include <sys/syscall.h>
+#include <pthread.h>
 
 #include "fault.h"
 

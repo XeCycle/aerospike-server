@@ -25,6 +25,8 @@
  *    the Aerospike Index module.
  */
 
+#include <strings.h>
+
 #include <citrusleaf/alloc.h>
 #include <citrusleaf/cf_shash.h>
 #include <citrusleaf/cf_ll.h>

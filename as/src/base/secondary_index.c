@@ -81,6 +81,7 @@
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
+#include <pthread.h>
 
 #include "citrusleaf/cf_atomic.h"
 #include "citrusleaf/cf_clock.h"

@@ -29,6 +29,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 
 #include "ai.h"
 #include "ai_globals.h"

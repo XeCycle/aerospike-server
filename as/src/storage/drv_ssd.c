@@ -47,6 +47,7 @@
 #include <linux/fs.h> // for BLKGETSIZE64
 #include <sys/ioctl.h>
 #include <sys/param.h> // for MAX()
+#include <sys/stat.h>
 
 #include "citrusleaf/alloc.h"
 #include "citrusleaf/cf_atomic.h"

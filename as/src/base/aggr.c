@@ -26,6 +26,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
+#include <strings.h>
 
 
 #include "aerospike/as_val.h"
