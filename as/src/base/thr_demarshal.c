@@ -373,11 +373,13 @@ thr_demarshal_config_xdr(int fd)
 
 	int arg = XDR_READ_BUFFER_SIZE;
 
+#ifdef TCP_WINDOW_CLAMP
 	if (setsockopt(fd, IPPROTO_TCP, TCP_WINDOW_CLAMP, &arg, sizeof arg) < 0) {
 		cf_crash(AS_DEMARSHAL, "Failed to set TCP window on FD %d, error %d (%s)",
 				fd, errno, strerror(errno));
 		return -1;
 	}
+#endif
 
 	arg = 0;
 
