@@ -42,7 +42,8 @@ main() {
 	if [ "$kernel" != 'linux' ]
 	then
 		error "$kernel is not supported."
-		exit 1
+		echo "$kernel"
+		exit
 	fi
 
 	if [ -f /etc/os-release ]
