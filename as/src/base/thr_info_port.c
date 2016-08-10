@@ -32,6 +32,9 @@
 #include <sys/epoll.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
+#ifdef __sun
+#include <sys/filio.h>
+#endif
 
 #include "citrusleaf/alloc.h"
 #include "citrusleaf/cf_atomic.h"

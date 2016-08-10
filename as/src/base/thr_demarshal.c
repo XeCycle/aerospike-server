@@ -37,6 +37,9 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#ifdef __sun
+#include <sys/filio.h>
+#endif
 
 #include "citrusleaf/alloc.h"
 #include "citrusleaf/cf_atomic.h"
