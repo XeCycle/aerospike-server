@@ -32,7 +32,6 @@
 #include <time.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include <asm-generic/socket.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <sys/epoll.h>
