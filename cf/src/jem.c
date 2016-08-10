@@ -152,7 +152,7 @@ int jem_get_arena(void)
 
 	if (jem_enabled) {
 		size_t len = sizeof(unsigned);
-		int tid = syscall(SYS_gettid);
+		long tid = pthread_self();
 
 		if ((retval = mallctlbymib(thread_arena_mib, thread_arena_miblen, &orig_arena, &len, NULL, 0))) {
 			cf_warning(CF_JEM, "In TID %d:  Failed to get arena!", tid);
@@ -175,7 +175,7 @@ int jem_set_arena(int arena)
 	if (jem_enabled && (0 <= arena)) {
 		unsigned orig_arena = 0;
 		size_t len = sizeof(unsigned);
-		int tid = syscall(SYS_gettid);
+		long tid = pthread_self();
 
 		if ((retval = mallctlbymib(thread_arena_mib, thread_arena_miblen, &orig_arena, &len, &arena, len))) {
 			cf_warning(CF_JEM, "Failed to set arena to #%d for TID %d! (rv %d ; errno %d)", arena, tid, retval, errno);
@@ -198,7 +198,7 @@ int jem_enable_tcache(bool enabled)
 	if (jem_enabled) {
 		bool orig_enabled;
 		size_t len = sizeof(bool);
-		int tid = syscall(SYS_gettid);
+		long tid = pthread_self();
 
 		if ((retval = mallctlbymib(thread_tcache_enabled_mib, thread_tcache_enabled_miblen, &orig_enabled, &len, &enabled, len))) {
 			cf_warning(CF_JEM, "Failed to set tcached enabled to %d for TID %d (errno %d)!", enabled, tid, errno);
@@ -221,7 +221,7 @@ void *jem_allocate_in_arena(int arena, size_t size, bool use_allocm)
 
 	if (jem_enabled) {
 		int retval = -1;
-		int tid = syscall(SYS_gettid);
+		long tid = pthread_self();
 
 		if (jem_enabled) {
 			if (use_allocm) {

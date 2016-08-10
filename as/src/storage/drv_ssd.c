@@ -3195,7 +3195,7 @@ ssd_load_devices_fn(void *udata)
 	cf_info(AS_DRV_SSD, "device %s: reading device to load index", ssd->name);
 
 #ifdef USE_JEM
-	int tid = syscall(SYS_gettid);
+	long tid = pthread_self();
 	cf_info(AS_DRV_SSD, "In TID %d: Using arena #%d for loading data for namespace \"%s\"",
 			tid, ssds->ns->jem_arena, ssds->ns->name);
 
