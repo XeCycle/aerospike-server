@@ -170,7 +170,7 @@ check_mac_and_get_ipaddr(int fdesc, const char *ifname, struct ifreq *req, char 
 		return false;
 	}
 
-	uint8_t *mac = (uint8_t *)req->ifr_ifru.ifru_hwaddr.sa_data;
+	uint8_t *mac = (uint8_t *)req->ifr_ifru.ifru_addr.sa_data;
 
 	static const uint8_t zero[6] = {0, 0, 0, 0, 0, 0};
 	static const uint8_t ff[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
@@ -331,7 +331,7 @@ cf_nodeid_get(unsigned short port, cf_node *id, char **node_ipp, hb_mode_enum hb
 	}
 
 	*id = 0;
-	memcpy(id, req.ifr_hwaddr.sa_data, 6);
+	memcpy(id, req.ifr_addr.sa_data, 6);
 	memcpy(((byte *)id) + 6, &port, 2);
 
 	cf_debug(CF_MISC, "port %d id %"PRIx64, port, *id);
