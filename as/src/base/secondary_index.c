@@ -505,11 +505,13 @@ as_sindex__dup_meta(as_sindex_metadata *imd, as_sindex_metadata **qimd,
 	if (pthread_rwlockattr_init(&rwattr))
 		cf_crash(AS_AS,  "pthread_rwlockattr_init: %s",
 					cf_strerror(errno));
+#ifdef PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP
 	if (pthread_rwlockattr_setkind_np(&rwattr,
 				PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP)) {
 		cf_crash( AS_TSVC, "pthread_rwlockattr_setkind_np: %s",
 				cf_strerror(errno));
 	}
+#endif
 	if (pthread_rwlock_init(&qimdp->slock, &rwattr)) {
 		cf_crash(AS_SINDEX,
 				"Could not create secondary index dml mutex ");
@@ -1682,10 +1684,12 @@ as_sindex__create_pmeta(as_sindex *si, int simatch, int nptr)
 	if (pthread_rwlockattr_init(&rwattr))
 		cf_crash(AS_AS,
 				"pthread_rwlockattr_init: %s", cf_strerror(errno));
+#ifdef PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP
 	if (pthread_rwlockattr_setkind_np(&rwattr,
 				PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP))
 		cf_crash(AS_TSVC,
 				"pthread_rwlockattr_setkind_np: %s",cf_strerror(errno));
+#endif
 
 	for (int i = 0; i < nptr; i++) {
 		as_sindex_pmetadata *pimd = &si->imd->pimd[i];

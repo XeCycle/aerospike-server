@@ -297,7 +297,10 @@ typedef struct qtr_skey_s {
 // **************************************************************************************************
 static int              g_current_queries_count = 0;
 static pthread_rwlock_t g_query_lock
-						= PTHREAD_RWLOCK_WRITER_NONRECURSIVE_INITIALIZER_NP;
+#ifdef PTHREAD_RWLOCK_WRITER_NONRECURSIVE_INITIALIZER_NP
+						= PTHREAD_RWLOCK_WRITER_NONRECURSIVE_INITIALIZER_NP
+#endif
+;
 static rchash         * g_query_job_hash = NULL;
 // Buf Builder Pool
 static cf_queue       * g_query_response_bb_pool  = 0;

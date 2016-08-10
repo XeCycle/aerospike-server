@@ -533,8 +533,10 @@ as_sindex_thr_init()
 	}
 	if (0 != pthread_rwlockattr_init(&rwattr))
 		cf_crash(AS_SINDEX, "pthread_rwlockattr_init: %s", cf_strerror(errno));
+#ifdef PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP
 	if (0 != pthread_rwlockattr_setkind_np(&rwattr, PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP))
 		cf_crash( AS_SINDEX, "pthread_rwlockattr_setkind_np: %s", cf_strerror(errno));
+#endif
 
 	// Aerospike Index Metadata lock
 	if (0 != pthread_rwlock_init(&g_ai_rwlock, &rwattr)) {
