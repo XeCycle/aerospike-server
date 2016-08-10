@@ -42,6 +42,9 @@
 
 #include "fault.h"
 
+#ifndef MSG_NOSIGNAL
+#define MSG_NOSIGNAL 0
+#endif
 
 void
 cf_sockaddr_convertto(const struct sockaddr_in *src, cf_sockaddr *dst)

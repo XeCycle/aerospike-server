@@ -70,6 +70,10 @@ struct as_namespace_s;
 #define PBOOL(line) bool PGLUE(pad_, line)[3]; bool
 #define PAD_BOOL PBOOL(__LINE__)
 
+#ifndef MSG_NOSIGNAL
+#define MSG_NOSIGNAL 0
+#endif
+
 typedef struct as_config_s {
 
 	// The order here matches that in the configuration parser's enum,
