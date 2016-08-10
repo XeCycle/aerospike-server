@@ -175,7 +175,7 @@ check-syntax:
 $(SERVER): $(OBJECTS) $(AS_LIB_DEPS)
 ifneq ($(PREPRO),1)
   ifneq ($(MEXP_PHASE),1)
-	$(LINK.c) -o $(SERVER) $(OBJECTS) $(LIBRARIES)
+	$(LINK.cc) -o $(SERVER) $(OBJECTS) $(LIBRARIES)
   endif
 endif
 
