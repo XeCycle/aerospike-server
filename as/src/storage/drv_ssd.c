@@ -44,7 +44,6 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include <linux/fs.h> // for BLKGETSIZE64
 #include <sys/ioctl.h>
 #include <sys/param.h> // for MAX()
 #include <sys/stat.h>
@@ -69,6 +68,28 @@
 #include "base/rec_props.h"
 #include "base/secondary_index.h"
 
+#ifdef __linux
+#include <linux/fs.h> // for BLKGETSIZE64
+
+uint64_t as_get_blockdev_size(int fd)
+{
+	uint64_t size = 0;
+	ioctl(fd, BLKGETSIZE64, &size); // gets the number of bytes
+	return size;
+}
+#endif
+
+#ifdef __sun
+#include <sys/dkio.h>
+#include <sys/vtoc.h>
+
+uint64_t as_get_blockdev_size(int fd)
+{
+	struct dk_minfo info;
+	ioctl(fd, DKIOCGMEDIAINFO, &info);
+	return info.dki_lbsize * info.dki_capacity;
+}
+#endif
 
 //==========================================================
 // Forward declarations.
@@ -3615,9 +3636,7 @@ ssd_init_devices(as_namespace *ns, drv_ssds **ssds_p)
 			return -1;
 		}
 
-		uint64_t size = 0;
-
-		ioctl(fd, BLKGETSIZE64, &size); // gets the number of bytes
+		uint64_t size = as_get_blockdev_size(fd);
 
 		ssd->file_size = check_file_size((off_t)size, "usable device");
 		ssd->io_min_size = find_io_min_size(fd, ssd->name);
@@ -3687,9 +3706,7 @@ ssd_init_shadows(as_namespace *ns, drv_ssds *ssds)
 			return -1;
 		}
 
-		uint64_t size = 0;
-
-		ioctl(fd, BLKGETSIZE64, &size); // gets the number of bytes
+		uint64_t size = as_get_blockdev_size(fd);
 
 		if ((off_t)size < ssd->file_size) {
 			cf_warning(AS_DRV_SSD, "shadow device %s is smaller than main device - %lu < %lu",
