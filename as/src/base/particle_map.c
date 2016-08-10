@@ -41,6 +41,59 @@
 #include "base/particle.h"
 #include "base/proto.h"
 
+#ifndef __GNU_LIBRARY__
+
+#include <stddef.h>
+
+typedef int (*cmp_t)(const void*, const void*, void*);
+
+static void swap_byte(char *a, char *b)
+{
+  char byte = *a;
+  *a = *b;
+  *b = byte;
+}
+
+static void swap_mem(void *a, void *b, size_t size)
+{
+  while (size--)
+    swap_byte(a++, b++);
+}
+
+static void *partition_r(
+  void *first, void *last, size_t size,
+  cmp_t cmp, void *cmpdata)
+{
+  void *pivot = first;
+  first += size;
+  while (first <= last) {
+    while (first <= last && (*cmp)(first, pivot, cmpdata) < 0)
+      first += size;
+    while (first <= last && (*cmp)(pivot, last, cmpdata) < 0)
+      last -= size;
+    if (!(first <= last))
+      break;
+    swap_mem(first, last, size);
+  }
+  swap_mem(pivot, last, size);
+  return last;
+}
+
+static void sort_r(void *first, void *last, size_t size, cmp_t cmp, void *cmpdata)
+{
+  while (first < last) {
+    void *cut = partition_r(first, last, size, cmp, cmpdata);
+    sort_r(cut+size, last, size, cmp, cmpdata);
+    last = cut - size;
+  }
+}
+
+void qsort_r(void *base, size_t nmemb, size_t size, cmp_t cmp, void *cmpdata)
+{
+  sort_r(base, base+(nmemb-1)*size, size, cmp, cmpdata);
+}
+
+#endif
 
 //==========================================================
 // MAP particle interface - function declarations.
