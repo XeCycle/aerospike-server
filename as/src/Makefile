@@ -104,6 +104,10 @@ ifeq ($(DOPROFILE),1)
   LIBRARIES += -pg -fprofile-arcs -lgcov
 endif
 
+ifeq ($(shell uname),SunOS)
+  AS_LIBRARIES += -lsocket -lnsl
+endif
+
 # Add either the LuaJIT or Lua library
 ifeq ($(USE_LUAJIT),1)
   ifeq ($(LD_LUAJIT),static)
