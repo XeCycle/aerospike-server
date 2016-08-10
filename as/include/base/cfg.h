@@ -78,6 +78,14 @@ struct as_namespace_s;
 #define MSG_MORE 0
 #endif
 
+#ifndef MAX
+#define MAX(a,b) ((a)<(b) ? (b) : (a))
+#endif
+
+#ifndef MIN
+#define MIN(a,b) ((a)<(b) ? (a) : (b))
+#endif
+
 typedef struct as_config_s {
 
 	// The order here matches that in the configuration parser's enum,

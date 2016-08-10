@@ -43,7 +43,7 @@
 #include <citrusleaf/cf_types.h> // for byte
 
 #include "fault.h"
-
+#include "util.h"
 
 // #define USE_CIRCUS 1
 

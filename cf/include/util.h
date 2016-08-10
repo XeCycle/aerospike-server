@@ -29,6 +29,14 @@
 #include <sys/types.h>
 #include <citrusleaf/cf_digest.h>
 
+#include <sys/param.h>
+#ifndef MIN
+#define MIN(a, b) ((a)<(b) ? (a) : (b))
+#endif
+#ifndef MAX
+#define MAX(a, b) ((a)<(b) ? (b) : (a))
+#endif
+
 // TODO - as_ .c files depend on this:
 #include <asm/byteorder.h>
 

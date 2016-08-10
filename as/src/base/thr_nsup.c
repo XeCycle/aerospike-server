@@ -34,7 +34,6 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include <sys/param.h> // for MIN and MAX
 
 #include "citrusleaf/alloc.h"
 #include "citrusleaf/cf_atomic.h"
