@@ -33,6 +33,9 @@
 #include <arpa/inet.h>
 #include <net/if.h>
 #include <netinet/in.h>
+#ifdef __sun
+#define BSD_COMP
+#endif
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 
