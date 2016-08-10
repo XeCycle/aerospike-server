@@ -367,7 +367,7 @@ cf_buf_builder_append_uint64 (cf_buf_builder **bb_r, uint64_t i)
 	BB_RESERVE(8);
 	cf_buf_builder *bb = *bb_r;
 	uint64_t *i_p = (uint64_t *) &bb->buf[bb->used_sz];
-	*i_p = __swab64(i);
+	*i_p = __builtin_bswap64(i);
 	bb->used_sz += 8;
 	return( 0 );
 }

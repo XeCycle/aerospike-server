@@ -35,6 +35,7 @@
 #include <asm/byteorder.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <endian.h>
 
 #include "aerospike/as_val.h"
 #include "citrusleaf/alloc.h"
@@ -60,7 +61,7 @@ as_proto_swap(as_proto *p)
 	uint8_t	 version = p->version;
 	uint8_t  type = p->type;
 	p->version = p->type = 0;
-	p->sz = __be64_to_cpup((__u64 *)p);
+	p->sz = be64toh(*(uint64_t*)p);
 	p->version = version;
 	p->type = type;
 }
@@ -852,7 +853,7 @@ uint8_t * as_msg_write_fields(uint8_t *buf, const char *ns, int ns_len,
 	if (trid) {
 		mf->type = AS_MSG_FIELD_TYPE_TRID;
 		//Convert the transaction-id to network byte order (big-endian)
-		uint64_t trid_nbo = __cpu_to_be64(trid); //swaps in place
+		uint64_t trid_nbo = htobe64(trid); //swaps in place
 		mf->field_sz = sizeof(trid_nbo) + 1;
 		//printf("write_fields: trid: write_fields: %d\n", mf->field_sz);
 		memcpy(mf->data, &trid_nbo, sizeof(trid_nbo));

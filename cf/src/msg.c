@@ -1134,7 +1134,7 @@ msg_dump(const msg *m, const char *info)
 					int n_ints = mf->field_len >> 2;
 					for (int j = 0; j < n_ints; j++) {
 						cf_info(CF_MSG, "      idx %d value %u",
-								j, ntohl(mf->u.ui32_a[j]));
+								j, cf_swap_from_be32(mf->u.ui32_a[j]));
 					}
 				}
 				break;
@@ -1146,7 +1146,7 @@ msg_dump(const msg *m, const char *info)
 					int n_ints = mf->field_len >> 3;
 					for (int j = 0; j < n_ints; j++) {
 						cf_info(CF_MSG, "      idx %d value %lu",
-								j, __bswap_64(mf->u.ui64_a[j]));
+								j, cf_swap_from_be64(mf->u.ui64_a[j]));
 					}
 				}
 				break;
