@@ -55,6 +55,8 @@ extern bool g_startup_complete;
 // Local helpers.
 //
 
+typedef void (*sighandler_t)(int);
+
 static inline void
 register_signal_handler(int sig_num, sighandler_t handler)
 {
