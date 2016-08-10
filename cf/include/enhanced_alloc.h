@@ -27,6 +27,18 @@
 #include <stddef.h>
 #include <citrusleaf/cf_atomic.h>
 
+#ifndef MEM_COUNT
+
+#define cf_calloc(nmemb, size) calloc(nmemb, size)
+#define cf_malloc(size) malloc(size)
+#define cf_free(ptr) free(ptr)
+#define cf_realloc(ptr, size) realloc(ptr, size)
+#define cf_strdup(s) strdup(s)
+#define cf_strndup(s, n) strndup(s, n)
+#define cf_valloc(size) valloc(size)
+
+#else
+
 #ifdef PREPRO
 
 // For generating code via the C pre-processor:
@@ -91,6 +103,8 @@ void *cf_valloc_at(size_t sz, char *file, int line);
 void cf_free_at(void *p, char *file, int line);
 
 #endif // !defined(PREPRO) && !defined(USE_ASM)
+
+#endif // def MEM_COUNT
 
 /*
  * The "cf_rc_*()" Functions:  Reference Counting Allocation:

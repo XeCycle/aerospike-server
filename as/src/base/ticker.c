@@ -27,7 +27,10 @@
 #include "base/ticker.h"
 
 #include <malloc.h>
+#ifdef __GNU_LIBRARY__
+#define AS_USE_GLIBC_MCHECK
 #include <mcheck.h>
+#endif
 #include <pthread.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -727,6 +730,7 @@ dump_namespace_histograms(as_namespace* ns)
 void
 log_mem_stats(size_t total_ns_memory_inuse)
 {
+#ifdef AS_USE_GLIBC_MCHECK
 #ifdef MEM_COUNT
 	if (g_config.memory_accounting) {
 		mem_count_stats();
@@ -788,4 +792,5 @@ log_mem_stats(size_t total_ns_memory_inuse)
 	if (g_mstats_enabled) {
 		info_log_with_datestamp(malloc_stats);
 	}
+#endif
 }

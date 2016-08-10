@@ -32,7 +32,10 @@
 #include <ctype.h>
 #include <limits.h>
 #include <malloc.h>
+#ifdef __GNU_LIBRARY__
 #include <mcheck.h>
+#define AS_USE_GLIBC_MCHECK
+#endif
 #include <sys/epoll.h>
 #include <sys/ioctl.h>
 #include <sys/resource.h>
@@ -160,7 +163,9 @@ msg_template info_mt[] = {
 bool g_mstats_enabled = false;
 
 // Is GLibC-level memory tracing enabled?
+#ifdef AS_USE_GLIBC_MCHECK
 static bool g_mtrace_enabled = false;
+#endif
 
 // Default location for the memory tracing output:
 #define DEFAULT_MTRACE_FILENAME  "/tmp/mtrace.out"
@@ -1231,6 +1236,7 @@ info_command_mstats(char *name, char *params, cf_dyn_buf *db)
 
 	cf_debug(AS_INFO, "mstats command received: params %s", params);
 
+#ifdef AS_USE_GLIBC_MCHECK
 	/*
 	 *  Command Format:  "mstats:{enable=<opt>}" [the "enable" argument is optional]
 	 *
@@ -1262,6 +1268,7 @@ info_command_mstats(char *name, char *params, cf_dyn_buf *db)
 	}
 
 	cf_dyn_buf_append_string(db, "ok");
+#endif
 
 	return 0;
 }
@@ -1275,6 +1282,7 @@ info_command_mtrace(char *name, char *params, cf_dyn_buf *db)
 
 	cf_debug(AS_INFO, "mtrace command received: params %s", params);
 
+#ifdef AS_USE_GLIBC_MCHECK
 	/*
 	 *  Command Format:  "mtrace:{enable=<opt>}" [the "enable" argument is optional]
 	 *
@@ -1311,6 +1319,7 @@ info_command_mtrace(char *name, char *params, cf_dyn_buf *db)
 	}
 
 	cf_dyn_buf_append_string(db, "ok");
+#endif
 
 	return 0;
 }
