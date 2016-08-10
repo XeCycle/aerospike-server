@@ -1326,8 +1326,6 @@ fabric_worker_fn(void *argv)
 	note_so.sun_family = AF_UNIX;
 	strcpy(note_so.sun_path, fa->note_sockname);
 	int len = sizeof(note_so.sun_family) + strlen(note_so.sun_path) + 1;
-	// Use an abstract Unix domain socket [Note:  Linux-specific!] by setting the first path character to NUL.
-	note_so.sun_path[0] = '\0';
 	if (connect(note_fd, (struct sockaddr *) &note_so, len) == -1) {
 		cf_crash(AS_FABRIC, "could not connect to notification socket");
 		return(0);
@@ -1869,11 +1867,9 @@ as_fabric_start()
 	struct sockaddr_un ns_so;
 	memset(&ns_so, 0, sizeof(ns_so));
 	ns_so.sun_family = AF_UNIX;
-	snprintf(&fa->note_sockname[0], sizeof(ns_so.sun_path), "@/tmp/wn-%d", getpid());
+	snprintf(&fa->note_sockname[0], sizeof(ns_so.sun_path), "/tmp/wn-%d", getpid());
 	strcpy(ns_so.sun_path, fa->note_sockname);
 	int ns_so_len = sizeof(ns_so.sun_family) + strlen(ns_so.sun_path) + 1;
-	// Use an abstract Unix domain socket [Note:  Linux-specific!] by setting the first path character to NUL.
-	ns_so.sun_path[0] = '\0';
 	if (0 > bind(fa->note_server_fd, (struct sockaddr *)&ns_so, ns_so_len)) {
 		cf_crash(AS_FABRIC,
 				 "could not bind note server name %s: %d %s", ns_so.sun_path, errno, cf_strerror(errno));
