@@ -99,7 +99,7 @@ void
 cf_socket_set_nodelay(int s)
 {
 	int flag = 1;
-	setsockopt(s, SOL_TCP, TCP_NODELAY, &flag, sizeof(flag));
+	setsockopt(s, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(flag));
 }
 
 
@@ -393,7 +393,7 @@ Success:	;
 	// regarding this: calling here doesn't seem terribly effective.
 	// on the fabric threads, it seems important to set no-delay much later
 	int flag = 1;
-	setsockopt(s->sock, SOL_TCP, TCP_NODELAY, &flag, sizeof(flag));
+	setsockopt(s->sock, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(flag));
 	long farg = fcntl(s->sock, F_GETFL, 0);
 	fcntl(s->sock, F_SETFL, farg & (~O_NONBLOCK)); /* blocking again */
 

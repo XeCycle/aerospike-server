@@ -890,7 +890,7 @@ fabric_process_writable(fabric_buffer *fb)
 
 	if (fb->nodelay_isset == false) {
 		int flag = 1;
-		setsockopt(fb->fd, SOL_TCP, TCP_NODELAY, &flag, sizeof(flag));
+		setsockopt(fb->fd, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(flag));
 		fb->nodelay_isset = true;
 	}
 
