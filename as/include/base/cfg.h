@@ -74,6 +74,10 @@ struct as_namespace_s;
 #define MSG_NOSIGNAL 0
 #endif
 
+#ifndef MSG_MORE
+#define MSG_MORE 0
+#endif
+
 typedef struct as_config_s {
 
 	// The order here matches that in the configuration parser's enum,
